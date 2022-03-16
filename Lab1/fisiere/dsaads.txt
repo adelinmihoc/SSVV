@@ -1,0 +1,8 @@
+Coding Phase Defects Checklist
+D_01 Decision logic or sequencing is erroneous or inadequate
+D_02 Branching is erroneous
+D_03 There are undefined loop terminations.
+D_04 I/O format error exists.
+D_05 Subprogram invocations are violated
+D_06 There is confusion in the use of parameters.
+D 07 Comments
