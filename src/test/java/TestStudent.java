@@ -44,46 +44,61 @@ public class TestStudent {
     }
 
     @Test
-    public void testAddStudentNegativeGroup() {
-        Student student1 = new Student("123","Gustavo",-20,"gustavo@gmail.com");
-        assertThrows(ValidationException.class, () -> service.addStudent(student1));
+    public void testAddStudentBVAGroupNegative() {
+        Student student3 = new Student("125","Gustavo2",-1,"gustavo@gmail.com");
+        assertThrows("An exception should be thrown for a student with negative group",ValidationException.class, () -> service.addStudent(student3));
+        this.service.deleteStudent("123");
     }
 
     @Test
-    public void testAddStudentBVAGroup() {
-        Student student1 = new Student("123","Gustavo",0,"gustavo@gmail.com");
+    public void testAddStudentBVAGroup1(){
         Student student2 = new Student("124","Gustavo1",1,"gustavo@gmail.com");
-        Student student3 = new Student("125","Gustavo2",-1,"gustavo@gmail.com");
-        this.service.addStudent(student1);
-        Assert.assertEquals("The student with the id 123 should be added",student1,this.service.findStudent("123"));
         this.service.addStudent(student2);
         Assert.assertEquals("The student with the id 124 should be added",student2,this.service.findStudent("124"));
-        assertThrows(ValidationException.class, () -> service.addStudent(student3));
-        this.service.deleteStudent("123");
         this.service.deleteStudent("124");
     }
 
+
     @Test
-    public void testAddStudentEPId() {
+    public void testAddStudentBVAGroup0(){
+        Student student1 = new Student("123","Gustavo",0,"gustavo@gmail.com");
+        this.service.addStudent(student1);
+        Assert.assertEquals("The student with the id 123 should be added",student1,this.service.findStudent("123"));
+    }
+
+    @Test
+    public void testAddStudentEPIdEmpty() {
         Student student1 = new Student("","Gustavo",0,"gustavo@gmail.com");
+        assertThrows("An exception should be thrown for a student with empty id",ValidationException.class, () -> service.addStudent(student1));
+    }
+
+    @Test
+    public void testAddStudentEPIdNull(){
         Student student2 = new Student(null,"Gustavo1",1,"gustavo1@gmail.com");
-        assertThrows(ValidationException.class, () -> service.addStudent(student1));
-        assertThrows(ValidationException.class, () -> service.addStudent(student2));
+        assertThrows("An exception should be thrown for a student with null id",ValidationException.class, () -> service.addStudent(student2));
     }
 
     @Test
-    public void testAddStudentEPName() {
+    public void testAddStudentEPEmptyName() {
         Student student1 = new Student("123","",0,"gustavo@gmail.com");
-        Student student2 = new Student("124",null,1,"gustavo1@gmail.com");
-        assertThrows(ValidationException.class, () -> service.addStudent(student1));
-        assertThrows(ValidationException.class, () -> service.addStudent(student2));
+        assertThrows("An exception should be thrown for a student with empty name",ValidationException.class, () -> service.addStudent(student1));
     }
 
     @Test
-    public void testAddStudentEPEmail() {
+    public void testAddStudentEPNullName(){
+        Student student2 = new Student("124",null,1,"gustavo1@gmail.com");
+        assertThrows("An exception should be thrown for a student with null name",ValidationException.class, () -> service.addStudent(student2));
+    }
+
+    @Test
+    public void testAddStudentEPEmptyEmail() {
         Student student1 = new Student("123","Gustavo",0,"");
-        Student student2 = new Student("124","Gustavo1",1,null);
         assertThrows(ValidationException.class, () -> service.addStudent(student1));
+    }
+
+    @Test
+    public void testAddStudentEPNullEmail(){
+        Student student2 = new Student("124","Gustavo1",1,null);
         assertThrows(ValidationException.class, () -> service.addStudent(student2));
     }
 
