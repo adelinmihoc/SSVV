@@ -102,4 +102,13 @@ public class TestStudent {
         assertThrows(ValidationException.class, () -> service.addStudent(student2));
     }
 
+    @Test
+    public void testAddExistentStudent(){
+        Student student1 = new Student("123","Gustavo",935,"gustavo@gmail.com");
+        this.service.addStudent(student1);
+        Student existentStudent = this.service.addStudent(student1);
+        Assert.assertEquals("When adding a student with the same id, it should return the existent student", student1, existentStudent);
+        this.service.deleteStudent("123");
+    }
+
 }
