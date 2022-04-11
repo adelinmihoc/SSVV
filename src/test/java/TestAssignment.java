@@ -36,14 +36,26 @@ public class TestAssignment {
     private final Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
 
     @Test
-    public void testAddAssignmentNullNumberAssignment(){
+    public void testAddAssignmentEmptyNumberAssignment(){
         Tema assignment = new Tema("","description",14,5);
         Assert.assertThrows("It should throw an exception because the number of the assignment is empty",ValidationException.class, ()->service.addTema(assignment));
     }
 
     @Test
+    public void testAddAssignmentNullNumberAssignment(){
+        Tema assignment = new Tema(null,"description",14,5);
+        Assert.assertThrows("It should throw an exception because the number of the assignment is null",ValidationException.class, ()->service.addTema(assignment));
+    }
+
+    @Test
     public void testAddAssignmentEmptyDescription(){
         Tema assignment = new Tema("1","",14,5);
+        Assert.assertThrows("It should throw an exception because the description of the assignment is empty",ValidationException.class, ()->service.addTema(assignment));
+    }
+
+    @Test
+    public void testAddAssignmentNullDescription(){
+        Tema assignment = new Tema("1",null,14,5);
         Assert.assertThrows("It should throw an exception because the description of the assignment is null",ValidationException.class, ()->service.addTema(assignment));
     }
 
