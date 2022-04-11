@@ -14,7 +14,7 @@ public class TemaValidator implements Validator<Tema> {
         if(entity.getID().equals("") || entity.getID() == null) {
             throw new ValidationException("Numar tema invalid!");
         }
-        if(entity.getDescriere().equals("")){
+        if(entity.getDescriere().equals("") || entity.getDescriere()==null){
             throw new ValidationException("Descriere invalida!");
         }
         if(entity.getDeadline() < 1 || entity.getDeadline() > 14) {

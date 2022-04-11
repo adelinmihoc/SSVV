@@ -42,9 +42,32 @@ public class TestAssignment {
     }
 
     @Test
+    public void testAddAssignmentEmptyDescription(){
+        Tema assignment = new Tema("1","",14,5);
+        Assert.assertThrows("It should throw an exception because the description of the assignment is null",ValidationException.class, ()->service.addTema(assignment));
+    }
+
+    @Test
     public void testAddAssignmentNegativeDeadline(){
         Tema assignment = new Tema("1","description",-14,5);
         Assert.assertThrows("It should throw an exception because the deadline number is negative",ValidationException.class, ()->service.addTema(assignment));
     }
+
+    @Test
+    public void testAddAssignmentReceivedNotInRange(){
+        Tema assignment = new Tema("1","description",2,19);
+        Assert.assertThrows("It should throw an exception because the received hw number is not in correct range",ValidationException.class, ()->service.addTema(assignment));
+    }
+
+    @Test
+    public void testAddExistentAssignment(){
+        Tema assignment = new Tema("1","description",2,12);
+        service.addTema(assignment);
+        Tema assignmentCopy = this.service.addTema(assignment);
+        Assert.assertEquals("When adding an assignment with the same id, it should return the existent assignment", assignment, assignmentCopy);
+        this.service.deleteTema("1");
+    }
+
+
 
 }
