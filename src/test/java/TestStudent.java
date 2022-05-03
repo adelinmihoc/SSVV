@@ -1,36 +1,16 @@
 import domain.Student;
 import org.junit.Assert;
 import org.junit.Test;
-import repository.NotaXMLRepo;
-import repository.StudentXMLRepo;
-import repository.TemaXMLRepo;
-import service.Service;
-import validation.NotaValidator;
-import validation.StudentValidator;
-import validation.TemaValidator;
 import validation.ValidationException;
 
 import static org.junit.Assert.assertThrows;
 
-public class TestStudent {
-    private final StudentValidator studentValidator = new StudentValidator();
-    private final TemaValidator temaValidator = new TemaValidator();
-    private static final String filenameStudent = "fisiere/Studenti.xml";
-    private static final String filenameTema = "fisiere/Teme.xml";
-    private static final String filenameNota = "fisiere/Note.xml";
-
-    private final StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
-    private final TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
-    private final NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
-    private final NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
-    private final Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
-
+public class TestStudent extends TestBase{
     @Test
     public void testAddStudentAndSearchById() {
         Student student1 = new Student("123","Gustavo",935,"gustavo@gmail.com");
         this.service.addStudent(student1);
         Assert.assertEquals("The student with the id 123 should be added",student1,this.service.findStudent("123"));
-        this.service.deleteStudent("123");
     }
 
     @Test
@@ -40,14 +20,12 @@ public class TestStudent {
         Student studentAdded = this.service.findStudent("123");
         String studentName = studentAdded.getNume();
         Assert.assertEquals("The name should be Gustavo", studentName.toString(),"Gustavo");
-        this.service.deleteStudent("123");
     }
 
     @Test
     public void testAddStudentBVAGroupNegative() {
         Student student3 = new Student("125","Gustavo2",-1,"gustavo@gmail.com");
         assertThrows("An exception should be thrown for a student with negative group",ValidationException.class, () -> service.addStudent(student3));
-        this.service.deleteStudent("123");
     }
 
     @Test
@@ -55,7 +33,6 @@ public class TestStudent {
         Student student2 = new Student("124","Gustavo1",1,"gustavo@gmail.com");
         this.service.addStudent(student2);
         Assert.assertEquals("The student with the id 124 should be added",student2,this.service.findStudent("124"));
-        this.service.deleteStudent("124");
     }
 
 
@@ -108,7 +85,6 @@ public class TestStudent {
         this.service.addStudent(student1);
         Student existentStudent = this.service.addStudent(student1);
         Assert.assertEquals("When adding a student with the same id, it should return the existent student", student1, existentStudent);
-        this.service.deleteStudent("123");
     }
 
 }

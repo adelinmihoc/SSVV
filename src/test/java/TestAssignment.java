@@ -1,17 +1,8 @@
-import domain.Student;
 import domain.Tema;
 import org.junit.Assert;
 import org.junit.Test;
-import repository.NotaXMLRepo;
-import repository.StudentXMLRepo;
-import repository.TemaXMLRepo;
-import service.Service;
-import validation.NotaValidator;
-import validation.StudentValidator;
-import validation.TemaValidator;
 import validation.ValidationException;
 
-import static org.junit.Assert.assertThrows;
 
 /**
  * Assignment
@@ -22,19 +13,7 @@ import static org.junit.Assert.assertThrows;
  * Class Constructor
  */
 
-public class TestAssignment {
-    private final StudentValidator studentValidator = new StudentValidator();
-    private final TemaValidator temaValidator = new TemaValidator();
-    private static final String filenameStudent = "fisiere/Studenti.xml";
-    private static final String filenameTema = "fisiere/Teme.xml";
-    private static final String filenameNota = "fisiere/Note.xml";
-
-    private final StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
-    private final TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
-    private final NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
-    private final NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
-    private final Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
-
+public class TestAssignment extends TestBase{
     @Test
     public void testAddAssignmentEmptyNumberAssignment(){
         Tema assignment = new Tema("","description",14,5);
@@ -84,9 +63,7 @@ public class TestAssignment {
     public void testAddAssignmentSuccessful(){
         Tema assignment = new Tema("123","description",2,12);
         Assert.assertNull("When adding an assignment successfully, it should return null",  service.addTema(assignment));
-        this.service.deleteTema("123");
     }
-
 
 
 }
