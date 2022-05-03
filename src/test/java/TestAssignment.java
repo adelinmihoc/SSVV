@@ -83,7 +83,7 @@ public class TestAssignment {
     @Test
     public void testAddAssignmentSuccessful(){
         Tema assignment = new Tema("123","description",2,12);
-        Assert.assertNull("When adding an assignment with the same id, it should return null",  service.addTema(assignment));
+        Assert.assertNull("When adding an assignment successfully, it should return null",  service.addTema(assignment));
         this.service.deleteTema("123");
     }
 
